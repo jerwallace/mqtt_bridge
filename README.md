@@ -1,6 +1,6 @@
 # mqtt_bridge
 
-mqtt_bridge provides a functionality to bridge between ROS and MQTT in bidirectional.
+mqtt_bridge provides a functionality to bridge between ROS and AWS IoT over MQTT.
 
 
 ## Principle
@@ -70,12 +70,23 @@ parameter file (config.yaml):
 
 ``` yaml
 mqtt:
-  client:
-    protocol: 4      # MQTTv311
-  connection:
-    host: localhost
-    port: 1883
-    keepalive: 60
+  client: 
+    id: test
+    publish_queuing: -1
+    draining_frequency: 2
+    connect_timeout_in_s: 10
+    operation_timeout_in_s: 5
+  aws:
+    useWebsocket: True
+    useInstanceProfileRole: True
+    port: 443
+    endpoint: <INCLUDE AN ENDPOINT IF YOU DONT WANT TO USE THE DEFAULT>
+    rootCA: <INCLUDE IF YOU ARE ALREADY PACKAGING A ROOT CA>
+    privateKey: <AWS IoT x.509 Private KEY OR LEAVE BLANK AND USE WEB SOCKETS>
+    certificate: <AWS IoT x.509 Certificate OR LEAVE BLANK AND USE WEB SOCKETS>
+    accessKeyId: <INSERT_HERE OR USE ROS PARAM + ENV VARIABLES OR LEAVE BLANK FOR IAM ROLE>
+    secretAccessKey: <INSERT_HERE OR USE ROS PARAM + ENV VARIABLES OR LEAVE BLANK FOR IAM ROLE>
+
 bridge:
   # ping pong
   - factory: mqtt_bridge.bridge:RosToMqttBridge
