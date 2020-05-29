@@ -1,11 +1,15 @@
 mqtt:
-  client:
-    protocol: 4      # MQTTv311
-  connection:
-    host: localhost
-    port: 1883
-    keepalive: 60
-  private_path: device/001
+  client: 
+    id: test
+    publish_queuing: -1
+    draining_frequency: 2
+    connect_timeout_in_s: 10
+    operation_timeout_in_s: 5
+  aws:
+    useWebsocket: True
+    useInstanceProfileRole: True
+    port: 443
+
 serializer: msgpack:dumps
 deserializer: msgpack:loads
 bridge:
