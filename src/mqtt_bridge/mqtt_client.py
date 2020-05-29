@@ -13,9 +13,6 @@ def get_root_ca():
     certificate.retrieve("https://www.amazontrust.com/repository/AmazonRootCA1.pem", path)
     return path
 
-def get_cert_paths():
-    rospack.get_path('mqtt_bridge')+"/certs"
-
 def get_endpoint(): 
     aws_client = boto3.client('iot')
     response = aws_client.describe_endpoint(
