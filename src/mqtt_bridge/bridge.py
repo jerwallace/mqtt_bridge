@@ -75,8 +75,6 @@ class RosToMqttBridge(Bridge):
 
     def _publish(self, msg):
         payload = self._serialize(extract_values(msg))
-        type(payload)
-        payload = bytearray(payload)
         self._mqtt_client.publish(self._topic_to, payload, 1)
 
 
