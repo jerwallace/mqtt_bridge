@@ -1,15 +1,14 @@
 mqtt:
-  client:
-    protocol: 4      # MQTTv311
-  connection:
-    host: localhost
-    port: 1883
-    keepalive: 60
-  private_path: device/001
-serializer: msgpack:dumps
-deserializer: msgpack:loads
+  client: 
+    id: test
+    publish_queuing: -1
+    draining_frequency: 2
+    connect_timeout_in_s: 10
+    operation_timeout_in_s: 5
+  aws:
+    connection_type: websocket
+    port: 443
 bridge:
-  # ping pong
   - factory: mqtt_bridge.bridge:RosToMqttBridge
     msg_type: std_msgs.msg:Bool
     topic_from: /ping
@@ -18,7 +17,6 @@ bridge:
     msg_type: std_msgs.msg:Bool
     topic_from: ping
     topic_to: /pong
-  # echo back
   - factory: mqtt_bridge.bridge:RosToMqttBridge
     msg_type: std_msgs.msg:String
     topic_from: /echo
@@ -27,7 +25,6 @@ bridge:
     msg_type: std_msgs.msg:String
     topic_from: echo
     topic_to: /back
-  # private path
   - factory: mqtt_bridge.bridge:RosToMqttBridge
     msg_type: std_msgs.msg:String
     topic_from: /private/echo
